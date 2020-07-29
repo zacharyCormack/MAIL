@@ -10,14 +10,12 @@ It must be configured and installed for this program to work.
 
 ## Usage
 
-This program requires at least three arguments.
+This program takes three arguments from the command line.
 1. When, in UTS seconds, to start sending messages
 2. How many messages to send
 3. How long, in microseconds, to wait between messages
 
-*However*, the message will be unable to send if no additional arguments are required.
-This is because any remaining arguments are forwarded to `mutt`.
-So, you need to also provide arguments for mutt.
+The message requires command line arguments to be given to `mutt`.
 
 ## Workings
 

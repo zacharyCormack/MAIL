@@ -2,29 +2,29 @@
 #include <unistd.h>
 #include <time.h>
 #include <sstream>
+#include <iostream>
 using namespace std;
 
 int main(int argc, char* argv[])
 {
-	// run prgram as daemon
-	if (!fork()) return 0;
+	size_t when;
+	int num_messages, wait_time;
+	// get arguments
+	cout << "When to start, in UTS seconds: ";
+	cin >> when;
+	cout << "Number of messages: ";
+	cin >> num_messages;
+	cout << "Time between messages, in microseconds: ";
+	cin >> wait_time;
+	// run remaing tasks as daemon
+	if (fork()!=0) return 0;
 	// set up argument string to integer conversion
 	stringstream ins;
 	// wait until after certain time to send emails
-	time_t when;
-	ins << argv[1];
-	ins >> when;
 	while (time(NULL) < when) sleep(1);
-	int num_messages, wait_time;
-	// number of times to send message
-	ins << argv[2];
-	ins >> num_messages;
-	// time between messages in microsecs
-	ins << argv[3];
-	ins >> wait_time;
-	// send remaining arguments to mutt
+	// send command line arguments to mutt
 	ins << "mutt";
-	for (int i = 4; i < argc; i++)
+	for (int i = 1; i < argc; i++)
 		ins << ' ' << argv[i];
 	const char* command = ins.str().c_str();
 	// send message repeatedly
